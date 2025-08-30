@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant - V.N.</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #chat-container {
+      width: 400px;
+      height: 600px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #chat-box {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    .message {
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+    .user {
+      text-align: right;
+      color: #333;
+    }
+    .bot {
+      text-align: left;
+      color: #555;
+    }
+    #input-container {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    #user-input {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+    }
+    #send-btn {
+      background: #F2D6B6;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-container">
+    <div id="chat-box"></div>
+    <div id="input-container">
+      <input type="text" id="user-input" placeholder="Ask me anything...">
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    const qaPairs = {
+      "who are you": "I'm V.N.'s AI assistant. I represent their work, personality, and experiences as a designer and innovator.",
+      "tell me about vn": "V.N. studied Digital Futures at OCAD University with a Minor in Games & Play, and is pursuing a Master’s in Digital Experience Innovation at the University of Waterloo. They’ve worked at Interac and CIBC, and have over 2 years of professional experience in design and innovation.",
+      "what are your skills": "V.N.'s skills include UX/UI design, service design, product design, usability testing, user research, workshop facilitation, and design thinking. Their background in games and play shapes how they approach creativity, collaboration, and problem-solving.",
+      "what did you do at interac": "At Interac, V.N. organized and facilitated workshops and hackathons to break down silos and bring teams together to ideate on how to improve products and services.",
+      "what did you do at cibc": "At CIBC, V.N. aligned with frontline employees and numerous teams across the bank to plan for the implementation of transaction migration initiatives, focusing on SMS deeplinks and digital adoption strategies.",
+      "what inspires you": "V.N. is inspired by the concept of play. Their studies in game design inform how they bring curiosity, creativity, and collaboration into their professional work and interactions.",
+      "education": "V.N. holds a Bachelor’s in Digital Futures from OCAD University (with a Minor in Games & Play) and is pursuing a Master’s in Digital Experience Innovation at the University of Waterloo.",
+      "experience": "V.N. has worked at Interac and CIBC, with over 2 years of professional experience across product design, service design, and innovation projects."
+    };
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function handleInput() {
+      const input = userInput.value.trim().toLowerCase();
+      if (!input) return;
+      appendMessage('user', userInput.value);
+      userInput.value = '';
+
+      let response = "I'm not sure about that. Try asking about my skills, experience, or education.";
+      for (const key in qaPairs) {
+        if (input.includes(key)) {
+          response = qaPairs[key];
+          break;
+        }
+      }
+      setTimeout(() => appendMessage('bot', response), 400);
+    }
+
+    sendBtn.addEventListener('click', handleInput);
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleInput();
+    });
+  </script>
+</body>
+</html>
