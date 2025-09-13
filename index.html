@@ -102,7 +102,7 @@
     <div class="chat-header">Vanessa's Portfolio Assistant: Ask me a question!</div>
     <div class="chat-body">
       <div class="messages" id="chatMessages">
-        <p class="bot-msg">Hi, I’m Vanessa’s portfolio assistant 👋 Ask me about her projects, skills, or career goals!</p>
+        <p class="bot-msg">👋 Hey there! I’m Vanessa’s portfolio assistant. You can ask me about her background, skills, projects, or career goals. Type “introduction” if you’d like a quick overview!</p>
       </div>
       <div class="input-area">
         <input type="text" id="userInput" placeholder="Type your question..." />
@@ -112,10 +112,15 @@
 
   <script>
     const responses = {
-      "roles": "I’m interested in product design, service design, and innovation roles. I like how they combine creativity, problem solving, and business impact.",
-      "projects": "At CIBC, I worked on transaction migration, aligning with frontline employees and teams to plan implementation. At Interac, I ran workshops and hackathons to break silos and bring teams together to improve products and services.",
-      "skills": "My skills span UX design, service design, innovation methods, user research, prototyping, and visual design. I also studied games and play, which shapes how I approach creativity and collaboration.",
-      "background": "I studied Digital Futures at OCAD with a minor in Games & Play, and now I’m pursuing a Master’s in Digital Experience Innovation at Waterloo. I’ve worked at Interac and CIBC, with over 2 years of professional experience."
+      "introduction": "Welcome to my portfolio! I’m Vanessa Namseang, a Product Designer who’s worked with companies like CIBC and Interac. I hold a Master’s in Digital Experience Innovation from the University of Waterloo, and a Bachelor’s in Digital Futures (with a minor in Games & Play) from OCAD University. I love blending creativity, play, and strategy in my work. Always open for a chat — let’s connect on LinkedIn!",
+      
+      "roles": "I’m passionate about product design, service design, and innovation roles. What excites me is the balance between creativity and problem solving — designing experiences that don’t just look great, but make people’s lives easier and more meaningful.",
+      
+      "projects": "At CIBC, I helped plan transaction migration by working closely with frontline employees and cross-functional teams. At Interac, I ran design workshops and hackathons that brought together people from across the company to break down silos and spark new ideas for improving services.",
+      
+      "skills": "My toolkit includes UX design, service design, user research, prototyping, visual design, and innovation methods. Thanks to my background in games and play, I bring a playful, creative mindset to teamwork and design challenges.",
+      
+      "background": "I studied Digital Futures at OCAD University with a minor in Games & Play, and now I’m pursuing my Master’s in Digital Experience Innovation at Waterloo. Along the way, I’ve gained over two years of professional experience at Interac and CIBC, where I learned how to translate big ideas into practical, user-centered solutions."
     };
 
     const chatMessages = document.getElementById("chatMessages");
@@ -146,7 +151,7 @@
           }
         }
         if (!found) {
-          addMessage("I didn’t catch that — try asking me about my roles, projects, skills, or background!", "bot");
+          addMessage("Hmm, I’m not sure about that one 🤔. Try asking about my introduction, roles, projects, skills, or background!", "bot");
         }
       }
     });
