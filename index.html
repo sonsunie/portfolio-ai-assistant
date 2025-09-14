@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Inter&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -55,6 +55,11 @@
     }
     .bot-message {
       text-align: left;
+    }
+    .bot-header {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
     @keyframes fadeIn {
       to { opacity: 1; }
@@ -130,17 +135,37 @@
     const inputEl = document.getElementById("userInput");
 
     const responses = {
-      intro: "Welcome to my portfolio! My name is Vanessa Namseang and I'm a Product Designer. I’ve worked at companies like CIBC and Interac, and I hold a Masters in Digital Experience Innovation from the University of Waterloo and a Bachelors in Design from OCAD University. I’m always open for a chat—connect with me on LinkedIn below!",
-      background: "I studied Digital Futures at OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I also love bringing in the concept of play from my game design studies to influence how I approach work and collaboration.",
-      experience: "I have had two major work experiences, my 8 month co-op at CIBC and my 8 month co-op at Interac. As a Service Designer Intern at CIBC, I led and supported initiatives to improve customer experiences and internal service design practices across the organization. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit, aiming to reduce in-branch volume and increase mobile adoption. In addition, I co-led the enterprise-wide Service Design Community of Practice, facilitated training workshops, and created toolkits to help scale human-centered practices across the bank. At Interac, I played a key role in driving engagement through the Innovation Interac Studio—running workshops, hackathon-style challenges, and experimental platforms that fostered innovation and collaboration across the company.",
-      skills: "I specialize in product and service design. My skills include usability testing, user research, UI design, workshop facilitation, co-creation, and design thinking. I also have strong visual design skills in Figma, Adobe Suite, and more. I bring creativity, empathy, and business thinking together to design meaningful experiences.",
-      linkedin: "You can connect with me here: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Vanessa’s LinkedIn</a>.",
+      intro: {
+        header: "Introduction",
+        text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer with experience in B2C and SaaS financial services. I’ve worked at companies like CIBC and Interac, and I hold a Masters in Digital Experience Innovation from the University of Waterloo and a Bachelors in Design from OCAD University. I’m always open for a chat so feel free to connect with me on LinkedIn!"
+      },
+      background: {
+        header: "Background",
+        text: "I studied Digital Futures at OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I also love bringing in the concept of play from my game design studies to influence how I approach work and collaboration."
+      },
+      experience: {
+        header: "Experience",
+        text: "I have had two major work experiences, my 8 month co-op at CIBC and my 8 month co-op at Interac. As a Service Designer Intern at CIBC, I led and supported initiatives to improve customer experiences and internal service design practices across the organization. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit, aiming to reduce in-branch volume and increase mobile adoption. In addition, I co-led the enterprise-wide Service Design Community of Practice, facilitated training workshops, and created toolkits to help scale human-centered practices across the bank. At Interac, I played a key role in driving engagement through the Innovation Interac Studio—running workshops, hackathon-style challenges, and experimental platforms that fostered innovation and collaboration across the company."
+      },
+      skills: {
+        header: "Skills",
+        text: "I specialize in product and service design. My skills include usability testing, user research, UI design, workshop facilitation, co-creation, and design thinking. I also have strong visual design skills in Figma, Adobe Suite, and more. I bring creativity, empathy, and business thinking together to design meaningful experiences."
+      },
+      linkedin: {
+        header: "LinkedIn",
+        text: "You can connect with me here: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Vanessa’s LinkedIn</a>."
+      }
     };
 
-    function addMessage(text, sender, withButtons = false) {
+    function addMessage(response, sender, withButtons = false) {
       const div = document.createElement("div");
       div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
-      div.innerHTML = text;
+
+      if (sender === "bot" && response.header) {
+        div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
+      } else {
+        div.innerHTML = response;
+      }
 
       if (withButtons) {
         const buttonsDiv = document.createElement("div");
@@ -160,8 +185,8 @@
     }
 
     function handleKeyword(keyword) {
-      let response = responses[keyword] || "Not sure about that—try Background, Experience, Skills, or LinkedIn!";
-      addMessage(responses[keyword], "bot");
+      const response = responses[keyword] || { header: "", text: "Not sure about that—try Background, Experience, Skills, or LinkedIn!" };
+      addMessage(response, "bot");
     }
 
     function sendMessage() {
@@ -171,23 +196,19 @@
       addMessage(inputEl.value, "user");
       inputEl.value = "";
 
-      let response = "I'm not sure about that, but ask me about my background, experience, skills, or LinkedIn!";
-
       if (input.includes("intro") || input.includes("hello") || input.includes("hi") || input.includes("welcome")) {
-        response = responses.intro;
-        addMessage(response, "bot", true); // add keyword buttons on intro
-        return;
+        addMessage(responses.intro, "bot", true);
       } else if (input.includes("background") || input.includes("school") || input.includes("education")) {
-        response = responses.background;
+        addMessage(responses.background, "bot");
       } else if (input.includes("experience") || input.includes("work") || input.includes("cibc") || input.includes("interac")) {
-        response = responses.experience;
+        addMessage(responses.experience, "bot");
       } else if (input.includes("skills")) {
-        response = responses.skills;
+        addMessage(responses.skills, "bot");
       } else if (input.includes("linkedin") || input.includes("connect")) {
-        response = responses.linkedin;
+        addMessage(responses.linkedin, "bot");
+      } else {
+        addMessage({ header: "", text: "Hmm, I’m not sure about that one 🤔. Try asking about my Introduction, Background, Experience, Skills, or LinkedIn!" }, "bot");
       }
-
-      setTimeout(() => addMessage(response, "bot"), 500);
     }
 
     // Show intro + buttons right away
