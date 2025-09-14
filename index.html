@@ -1,152 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #f9f9f9;
+      background: #fff;
       color: #000;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       height: 100vh;
     }
-
-    .chat-widget {
-      width: 90%;
-      max-width: 700px;
-      height: 70vh;
-      background: #fff;
+    .chatbot-container {
+      width: 70%;
+      max-width: 800px;
+      height: 85%;
       border: 1px solid #ddd;
       border-radius: 12px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .chat-header {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       background: #fff;
-      padding: 16px;
-      font-weight: 600;
-      font-size: 1.3rem;
-      font-family: 'Poppins', sans-serif;
-      border-bottom: 1px solid #eee;
-      text-align: center;
     }
-
-    .messages {
+    .chatbot-header {
+      background: #fff;
+      color: #000;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      border-bottom: 1px solid #ddd;
+    }
+    .chatbot-messages {
       flex: 1;
       padding: 16px;
       overflow-y: auto;
+    }
+    .message {
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+    .user-message {
+      text-align: right;
+      font-weight: 600;
+    }
+    .bot-message {
+      text-align: left;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .chatbot-input {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 0.95rem;
+      align-items: center;
+      border-top: 1px solid #ddd;
+      padding: 8px;
     }
-
-    .messages p {
-      margin: 0;
-      padding: 10px 14px;
-      border-radius: 8px;
-      max-width: 80%;
-      word-wrap: break-word;
-    }
-
-    .user-msg {
-      align-self: flex-end;
-      background: #e8e8e8;
-      color: #000;
-    }
-
-    .bot-msg {
-      align-self: flex-start;
-      background: #f1f1f1;
-      color: #000;
-    }
-
-    .input-area {
-      border-top: 1px solid #eee;
-      padding: 12px;
-      background: #fff;
-    }
-
-    .input-area input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    .chatbot-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
       outline: none;
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      background: #fff;
-      color: #000;
+      font-size: 14px;
     }
-
-    .input-area input::placeholder {
-      color: #888;
+    .send-btn {
+      margin-left: 8px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .send-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="chat-widget">
-    <div class="chat-header">Vanessa's Portfolio Assistant: Ask me a question!</div>
-    <div class="messages" id="chatMessages">
-      <p class="bot-msg">👋 Hey there! I’m Vanessa’s portfolio assistant. You can ask me about her background, skills, projects, or career goals. Type “introduction” if you’d like a quick overview!</p>
-    </div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type your question..." />
+  <div class="chatbot-container">
+    <div class="chatbot-header">Vanessa's Portfolio Assistant: Ask me a question!</div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-input">
+      <input type="text" id="userInput" placeholder="Type your question here..." />
+      <div class="send-btn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+        </svg>
+      </div>
     </div>
   </div>
 
   <script>
+    const messagesEl = document.getElementById("chatbotMessages");
+    const inputEl = document.getElementById("userInput");
+
     const responses = {
-      "introduction": "Welcome to my portfolio! I’m Vanessa Namseang, a Product Designer who’s worked with companies like CIBC and Interac. I hold a Master’s in Digital Experience Innovation from the University of Waterloo, and a Bachelor’s in Digital Futures (with a minor in Games & Play) from OCAD University. I love blending creativity, play, and strategy in my work. Always open for a chat — let’s connect on LinkedIn!",
-      
-      "roles": "I’m passionate about product design, service design, and innovation roles. What excites me is the balance between creativity and problem solving — designing experiences that don’t just look great, but make people’s lives easier and more meaningful.",
-      
-      "projects": "At CIBC, I helped plan transaction migration by working closely with frontline employees and cross-functional teams. At Interac, I ran design workshops and hackathons that brought together people from across the company to break down silos and spark new ideas for improving services.",
-      
-      "skills": "My toolkit includes UX design, service design, user research, prototyping, visual design, and innovation methods. Thanks to my background in games and play, I bring a playful, creative mindset to teamwork and design challenges.",
-      
-      "background": "I studied Digital Futures at OCAD University with a minor in Games & Play, and now I’m pursuing my Master’s in Digital Experience Innovation at Waterloo. Along the way, I’ve gained over two years of professional experience at Interac and CIBC, where I learned how to translate big ideas into practical, user-centered solutions."
+      intro: "Welcome to my portfolio! My name is Vanessa Namseang and I'm a Product Designer. I’ve worked at companies like CIBC and Interac, and I hold a Masters in Digital Experience Innovation from the University of Waterloo and a Bachelors in Design from OCAD University. I’m always open for a chat—connect with me on LinkedIn: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Click here</a>!",
+      background: "I studied Digital Futures at OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I also love bringing in the concept of play from my game design studies to influence how I approach work and collaboration.",
+      experience: "I have had two major work experiences, my 8 month co-op at CIBC and my 8 month co-op at Interac. As a Service Designer Intern at CIBC, I led and supported initiatives to improve customer experiences and internal service design practices across the organization. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit, aiming to reduce in-branch volume and increase mobile adoption. In addition, I co-led the enterprise-wide Service Design Community of Practice, facilitated training workshops, and created toolkits to help scale human-centered practices across the bank. At Interac, I played a key role in driving engagement through the Innovation Interac Studio—running workshops, hackathon-style challenges, and experimental platforms that fostered innovation and collaboration across the company.",
+      skills: "I specialize in product and service design. My skills include usability testing, user research, UI design, workshop facilitation, co-creation, and design thinking. I also have strong visual design skills in Figma, Adobe Suite, and more. I bring creativity, empathy, and business thinking together to design meaningful experiences.",
+      linkedin: "You can connect with me here: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Vanessa’s LinkedIn</a>.",
     };
 
-    const chatMessages = document.getElementById("chatMessages");
-    const userInput = document.getElementById("userInput");
-
-    function addMessage(msg, sender) {
-      const p = document.createElement("p");
-      p.textContent = msg;
-      p.className = sender === "user" ? "user-msg" : "bot-msg";
-      chatMessages.appendChild(p);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+      div.innerHTML = text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    userInput.addEventListener("keypress", function(e) {
-      if (e.key === "Enter" && userInput.value.trim() !== "") {
-        const input = userInput.value.trim();
-        addMessage(input, "user");
-        userInput.value = "";
+    function sendMessage() {
+      const input = inputEl.value.trim().toLowerCase();
+      if (!input) return;
 
-        const lowerInput = input.toLowerCase();
-        let found = false;
-        for (let key in responses) {
-          if (lowerInput.includes(key)) {
-            addMessage(responses[key], "bot");
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          addMessage("Hmm, I’m not sure about that one 🤔. Try asking about my introduction, roles, projects, skills, or background!", "bot");
-        }
+      addMessage(inputEl.value, "user");
+      inputEl.value = "";
+
+      let response = "I'm not sure about that, but ask me about my background, experience, skills, or LinkedIn!";
+
+      if (input.includes("intro") || input.includes("hello") || input.includes("hi") || input.includes("welcome")) {
+        response = responses.intro;
+      } else if (input.includes("background") || input.includes("school") || input.includes("education")) {
+        response = responses.background;
+      } else if (input.includes("experience") || input.includes("work") || input.includes("cibc") || input.includes("interac")) {
+        response = responses.experience;
+      } else if (input.includes("skills")) {
+        response = responses.skills;
+      } else if (input.includes("linkedin") || input.includes("connect")) {
+        response = responses.linkedin;
       }
+
+      setTimeout(() => addMessage(response, "bot"), 500);
+    }
+
+    inputEl.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
     });
   </script>
 </body>
