@@ -167,36 +167,32 @@
       }
     };
 
-    function addMessage(response, sender, withButtons = false) {
-      const div = document.createElement("div");
-      div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+function addMessage(response, sender, withButtons = false) {
+  const div = document.createElement("div");
+  div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
 
-      if (sender === "bot") {
-        if (typeof response === "object" && response.header) {
-          div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
-        } else {
-          div.innerHTML = response;
-        }
-      } else {
-        div.textContent = response; // fix: ensure user input is plain text, not bold
-      }
+  if (sender === "bot" && typeof response === "object") {
+    div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
+  } else {
+    div.innerHTML = `<span class="user-text">${response}</span>`;
+  }
 
-      if (withButtons) {
-        const buttonsDiv = document.createElement("div");
-        buttonsDiv.classList.add("keyword-buttons");
-        ["Background", "Experience", "Skills", "Target Roles/Companies", "Projects"].forEach(keyword => {
-          const btn = document.createElement("div");
-          btn.classList.add("keyword-button");
-          btn.textContent = keyword;
-          btn.onclick = () => handleKeyword(keyword.toLowerCase());
-          buttonsDiv.appendChild(btn);
-        });
-        div.appendChild(buttonsDiv);
-      }
+  if (withButtons) {
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.classList.add("keyword-buttons");
+    ["Background", "Experience", "Skills", "Target Roles/Companies", "Projects"].forEach(keyword => {
+      const btn = document.createElement("div");
+      btn.classList.add("keyword-button");
+      btn.textContent = keyword;
+      btn.onclick = () => handleKeyword(keyword.toLowerCase());
+      buttonsDiv.appendChild(btn);
+    });
+    div.appendChild(buttonsDiv);
+  }
 
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
 
     function handleKeyword(keyword) {
       let key = keyword;
