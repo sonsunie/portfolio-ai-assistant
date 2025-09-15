@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Jost', sans-serif;
+      font-size: 18px;
       background-color: white;
       color: black;
       margin: 0;
@@ -35,6 +40,7 @@
       padding: 16px;
       font-size: 22px;
       text-align: center;
+      font-family: 'Outfit', sans-serif;
     }
 
     .chat-box {
@@ -53,6 +59,7 @@
       display: block;
       margin-bottom: 6px;
       font-size: 20px;
+      font-family: 'Outfit', sans-serif;
     }
 
     @keyframes fadeIn {
@@ -88,6 +95,7 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      font-size: 16px;
     }
 
     .input-area button:hover {
@@ -111,6 +119,11 @@
     .suggestions span:hover {
       background: #ddd;
     }
+
+    /* Company and university highlights */
+    .cibc { color: #d32f2f; font-weight: bold; } /* red */
+    .interac { color: #d4a017; font-weight: bold; } /* mustard yellow */
+    .university { font-weight: bold; }
   </style>
 </head>
 <body>
@@ -119,7 +132,9 @@
     <div class="chat-box" id="chatBox">
       <div class="message">
         <strong>Introduction</strong>
-        Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. I’ve worked at companies like <b>CIBC</b> and <b>Interac</b>, and I hold a <b>Masters of Digital Experience Innovation at the University of Waterloo</b> and a <b>Bachelors of Design in Digital Futures at OCAD University</b>. I’m always open for a chat so feel free to connect with me on <a href="https://www.linkedin.com/in/vanessanamseang/" target="_blank">LinkedIn</a>😊!
+        Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer with experience in B2C and SaaS financial services. 
+        I’ve worked at companies like <span class="cibc">CIBC</span> and <span class="interac">Interac</span>, and I hold a Masters of Digital Experience Innovation from <span class="university">the University of Waterloo</span> and a Bachelors of Design in Digital Futures from <span class="university">OCAD University</span>. 
+        I’m always open for a chat so feel free to connect with me on <a href="https://www.linkedin.com/in/vanessanamseang/" target="_blank">LinkedIn</a>!
       </div>
       <div class="suggestions">
         <span onclick="showResponse('background')">Background</span>
@@ -139,9 +154,9 @@
 
   <script>
     const responses = {
-      "background": "<strong>Background</strong> I’m Vanessa Namseang, a Toronto-based Product Designer. I studied at <b>OCAD University</b>, earning a <b>Bachelors of Design in Digital Futures</b> with a minor in Games and Play. I’m currently pursuing my <b>Masters of Digital Experience Innovation at the University of Waterloo</b>. My academic journey combines design, technology, and play, which I bring into my professional work.",
+      "background": "<strong>Background</strong> I’m Vanessa Namseang, a Toronto-based Product Designer. I studied at <span class='university'>OCAD University</span>, earning a Bachelors of Design in Digital Futures with a minor in Games and Play. I’m currently pursuing my Masters of Digital Experience Innovation at the <span class='university'>University of Waterloo</span>. My academic journey combines design, technology, and play, which I bring into my professional work.",
       
-      "experience": "<strong>Experience</strong> I have over 2 years of professional experience through two major co-ops: 8 months at <b>CIBC</b> as a Service Designer Intern, and 8 months at <b>Interac</b> with the Innovation Team. At <b>CIBC</b>, I supported initiatives to improve customer experiences and service design practices, including integrating SMS deeplinks in banking centres. I also co-led the Service Design Community of Practice and created toolkits for scaling human-centered design. At <b>Interac</b>, I drove innovation through design thinking workshops, hackathons, and experimental platforms with the Innovation Studio Team.",
+      "experience": "<strong>Experience</strong> I have over 2 years of professional experience through two major co-ops: 8 months at <span class='cibc'>CIBC</span> as a Service Designer Intern, and 8 months at <span class='interac'>Interac</span> with the Innovation Team. At <span class='cibc'>CIBC</span>, I supported initiatives to improve customer experiences and service design practices, including integrating SMS deeplinks in banking centres. I also co-led the Service Design Community of Practice and created toolkits for scaling human-centered design. At <span class='interac'>Interac</span>, I drove innovation through design thinking workshops, hackathons, and experimental platforms with the Innovation Studio Team.",
       
       "skills": "<strong>Skills</strong> My skills span product and service design, with strengths in UX/UI, user research, prototyping, usability testing, workshop facilitation, and service design frameworks. I’m also skilled in visual design, design systems, and interaction design. Beyond tools like Figma and Adobe Suite, I bring a mindset of empathy and creativity influenced by my background in games and play.",
       
@@ -149,7 +164,7 @@
       
       "companies": "<strong>Target Companies</strong> I’m excited about opportunities at Canadian banks, fintech companies like Wealthsimple and Stripe, and global tech leaders like Google, Microsoft, and Spotify. These companies align with my passion for transforming how people interact with technology in their daily lives.",
       
-      "projects": "<strong>Projects</strong> At <b>CIBC</b>, I focused on integrating SMS deeplinks in banking centres to guide clients to digital self-serve tools, reducing in-branch volume. At <b>Interac</b>, I facilitated workshops, hackathon challenges, and developed experimental platforms for innovation. Outside of work, I’ve explored projects that merge design and play, such as interactive games and design systems informed by playful methodologies.",
+      "projects": "<strong>Projects</strong> At <span class='cibc'>CIBC</span>, I focused on integrating SMS deeplinks in banking centres to guide clients to digital self-serve tools, reducing in-branch volume. At <span class='interac'>Interac</span>, I facilitated workshops, hackathon challenges, and developed experimental platforms for innovation. Outside of work, I’ve explored projects that merge design and play, such as interactive games and design systems informed by playful methodologies.",
       
       "linkedin": "<strong>LinkedIn</strong> You can connect with me on LinkedIn here: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Vanessa Namseang</a>."
     };
