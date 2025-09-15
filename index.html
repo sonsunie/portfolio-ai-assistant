@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=Jost&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -78,6 +78,7 @@
       border-radius: 20px;
       outline: none;
       font-size: 14px;
+      font-family: 'Jost', sans-serif;
     }
     .send-btn {
       margin-left: 8px;
@@ -110,7 +111,7 @@
       cursor: pointer;
       font-size: 14px;
       transition: background 0.2s, color 0.2s;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Jost', sans-serif;
     }
     .keyword-button:hover {
       background: #000;
@@ -140,29 +141,30 @@
     const inputEl = document.getElementById("userInput");
 
     const responses = {
-      intro: {
-        header: "Introduction",
-        text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. I’ve worked at companies like <span class='cibc'>CIBC</span> and <span class='interac'>Interac</span>, and I hold a Masters of Digital Experience Innovation from the University of Waterloo and a Bachelors of Design in Digital Futures from OCAD University. I’m always open for a chat so feel free to connect with me on <a href="https://www.linkedin.com/in/vanessanamseang/" target="_blank">LinkedIn</a>! 😊"
-      },
+intro: {
+  header: "Introduction",
+  text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. I’ve worked at companies like <span class='cibc'>CIBC</span> and <span class='interac'>Interac</span>, and I hold a Masters of Digital Experience Innovation from <span class='uni'>the University of Waterloo</span> and a Bachelors of Design in Digital Futures from <span class='uni'>OCAD University</span>. I’m always open for a chat so feel free to connect with me on <a href='https://www.linkedin.com/in/vanessanamseang' target='_blank'>LinkedIn</a>! 😊"
+}
+
       background: {
         header: "Background",
-        text: "I hold my Bachelors of Design in Digital Futures from OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I'm passionate about bringing in the concept of play from my game design studies to influence how I approach work and collaboration."
+        text: "I studied Digital Futures at OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I also love bringing in the concept of play from my game design studies to influence how I approach work and collaboration."
       },
       experience: {
         header: "Experience",
-        text: "I have over 2 years of professional experience through two major co-ops: my 8-month co-op at <span class='cibc'>CIBC</span> and my 8-month co-op at <span class='interac'>Interac</span>. At CIBC, I worked as a Service Designer Intern, leading initiatives to improve customer experiences and service design practices. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit. At Interac, I helped drive engagement through Innovation workshops, hackathon-style challenges, and experimental platforms that encouraged collaboration and innovation across the company."
+        text: "I’ve had two major work experiences: my 8-month co-op at <span class='cibc'>CIBC</span> and my 8-month co-op at <span class='interac'>Interac</span>. At CIBC, I worked as a Service Designer Intern, leading initiatives to improve customer experiences and service design practices. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit. At Interac, I helped drive engagement through the Innovation Interac Studio—running workshops, hackathon-style challenges, and experimental platforms that encouraged collaboration and innovation across the company."
       },
       skills: {
         header: "Skills",
-        text: "My skills span product and service design, with strengths in UX/UI, user research, prototyping, usability testing, workshop facilitation, and service design frameworks. I’m also skilled in visual design, design systems, and interaction design. Beyond tools like Figma and Adobe Suite, I bring a mindset of empathy and creativity influenced by my background in games and play."
+        text: "I specialize in product and service design. My skills include usability testing, user research, UI design, workshop facilitation, co-creation, and design thinking. I also have strong visual design skills in Figma, Adobe Suite, and more."
       },
       target: {
         header: "Target Roles & Companies",
-        text: "I’m aiming for roles in product design, service design, and innovation strategy, particularly within fintech and big tech. I’m especially excited about opportunities at Canadian banks, as well as global companies like Google, Spotify, and Stripe."
+        text: "I’m aiming for roles in product design, service design, and innovation management, particularly within fintech and big tech. I’m especially excited about opportunities at Canadian banks, as well as global companies like Google, Spotify, and Stripe."
       },
       projects: {
         header: "Projects",
-        text: "I’ve worked on a variety of projects that combine design thinking, innovation, and creativity. At CIBC, I focused on integrating SMS deeplinks in banking centres to guide clients to digital self-serve tools, reducing in-branch volume. At Interac, I facilitated workshops, hackathon challenges, and developed experimental platforms for innovation. Outside of work, I’ve explored projects that merge design and play, such as interactive games and design systems informed by playful methodologies."
+        text: "I’ve worked on a variety of projects that combine design thinking, innovation, and creativity. Some highlights include my thesis on echo chambers in social media, a cooking game called Otterby’s Oven, and innovation workshops like the Interac Debit Innovation Challenge."
       }
     };
 
