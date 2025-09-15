@@ -15,12 +15,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      height: 100vh;
+      min-height: 100vh;
     }
+
     .chatbot-container {
-      width: 70%;
+      width: 90%;
       max-width: 800px;
-      height: 85%;
+      height: 100%;
+      max-height: 90vh;
       border: 1px solid #ddd;
       border-radius: 12px;
       display: flex;
@@ -29,6 +31,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       background: #fff;
     }
+
     .chatbot-header {
       background: #fff;
       color: #000;
@@ -39,38 +42,46 @@
       font-family: 'Outfit', sans-serif;
       border-bottom: 1px solid #ddd;
     }
+
     .chatbot-messages {
       flex: 1;
       padding: 16px;
       overflow-y: auto;
       font-size: 18px;
     }
+
     .message {
       margin-bottom: 12px;
       opacity: 0;
       animation: fadeIn 0.5s forwards;
     }
+
     .user-message {
       text-align: right;
       font-weight: normal; /* unbold user text */
     }
+
     .bot-message {
       text-align: left;
     }
+
     .bot-header {
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
       margin-bottom: 4px;
     }
+
     @keyframes fadeIn {
       to { opacity: 1; }
     }
+
     .chatbot-input {
       display: flex;
       align-items: center;
       border-top: 1px solid #ddd;
       padding: 8px;
     }
+
     .chatbot-input input {
       flex: 1;
       padding: 10px;
@@ -80,6 +91,7 @@
       font-size: 14px;
       font-family: 'Jost', sans-serif;
     }
+
     .send-btn {
       margin-left: 8px;
       width: 36px;
@@ -91,17 +103,20 @@
       justify-content: center;
       cursor: pointer;
     }
+
     .send-btn svg {
       width: 18px;
       height: 18px;
       fill: #fff;
     }
+
     .keyword-buttons {
       margin-top: 10px;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .keyword-button {
       padding: 6px 12px;
       border: 1px solid #000;
@@ -113,13 +128,23 @@
       transition: background 0.2s, color 0.2s;
       font-family: 'Jost', sans-serif;
     }
+
     .keyword-button:hover {
       background: #000;
       color: #fff;
     }
+
     .cibc { color: red; font-weight: bold; }
     .interac { color: #d4a017; font-weight: bold; }
     .uni { font-weight: bold; }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .chatbot-header { font-size: 16px; padding: 12px; }
+      .chatbot-messages { font-size: 16px; padding: 12px; }
+      .chatbot-input input { font-size: 13px; padding: 8px; }
+      .keyword-button { font-size: 12px; padding: 5px 10px; }
+    }
   </style>
 </head>
 <body>
@@ -143,7 +168,7 @@
     const responses = {
       intro: {
         header: "Introduction",
-        text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. To learn more about me, ask a question or click a button below, or feel free to message with me on <a href='https://www.linkedin.com/in/vanessanamseang' target='_blank'>LinkedIn</a>!😊"
+        text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. To learn more about me, ask a question or click a button below, or feel free to message me on <a href='https://www.linkedin.com/in/vanessanamseang' target='_blank'>LinkedIn</a>!😊"
       },
       background: {
         header: "Background",
@@ -151,7 +176,7 @@
       },
       experience: {
         header: "Experience",
-        text: "I have over 2 years of professional work experience through numerous co-ops: notably one at <span class='cibc'>CIBC</span> and another at <span class='interac'>Interac</span>. At CIBC, I worked as a Service Designer Intern, leading initiatives to improve customer experiences and service design practices. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit. At Interac, I supported innovation through running workshops, hackathon-style challenges, and experimental platforms that encouraged collaboration and new ideas across the company."
+        text: "I have over 2 years of professional work experience through numerous co-ops: notably one at <span class='cibc'>CIBC</span> and another at <span class='interac'>Interac</span>. At CIBC, I worked as a Service Designer Intern, leading initiatives to improve customer experiences and service design practices. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit. At Interac, I supported innovation through workshops, hackathons, and experimental platforms that encouraged collaboration and new ideas."
       },
       skills: {
         header: "Skills",
@@ -163,36 +188,36 @@
       },
       projects: {
         header: "Projects",
-        text: "At <span class='cibc'>CIBC</span>, I focused on a project that introduced SMS deeplinks in banking centres to encourage digital adoption of self-serve tools. At <span class='interac'>Interac</span>, I contributed to the Interac Studio, supporting company-wide workshops, hackathons, and experimental projects designed to promote collaboration and drive new ideas. Outside of my professional life, I enjoy making both analog and digital games, as well as illustration and graphic design."
+        text: "At <span class='cibc'>CIBC</span>, I focused on a project that introduced SMS deeplinks in banking centres to encourage digital adoption of self-serve tools. At <span class='interac'>Interac</span>, I contributed to the Interac Studio, supporting company-wide workshops, hackathons, and experimental projects designed to promote collaboration and drive new ideas."
       }
     };
 
-function addMessage(response, sender, withButtons = false) {
-  const div = document.createElement("div");
-  div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+    function addMessage(response, sender, withButtons = false) {
+      const div = document.createElement("div");
+      div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
 
-  if (sender === "bot" && typeof response === "object") {
-    div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
-  } else {
-    div.innerHTML = `<span class="user-text">${response}</span>`;
-  }
+      if (sender === "bot" && typeof response === "object") {
+        div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
+      } else {
+        div.innerHTML = `<span class="user-text">${response}</span>`;
+      }
 
-  if (withButtons) {
-    const buttonsDiv = document.createElement("div");
-    buttonsDiv.classList.add("keyword-buttons");
-    ["Background", "Experience", "Skills", "Target Roles/Companies", "Projects"].forEach(keyword => {
-      const btn = document.createElement("div");
-      btn.classList.add("keyword-button");
-      btn.textContent = keyword;
-      btn.onclick = () => handleKeyword(keyword.toLowerCase());
-      buttonsDiv.appendChild(btn);
-    });
-    div.appendChild(buttonsDiv);
-  }
+      if (withButtons) {
+        const buttonsDiv = document.createElement("div");
+        buttonsDiv.classList.add("keyword-buttons");
+        ["Background", "Experience", "Skills", "Target Roles/Companies", "Projects"].forEach(keyword => {
+          const btn = document.createElement("div");
+          btn.classList.add("keyword-button");
+          btn.textContent = keyword;
+          btn.onclick = () => handleKeyword(keyword.toLowerCase());
+          buttonsDiv.appendChild(btn);
+        });
+        div.appendChild(buttonsDiv);
+      }
 
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
 
     function handleKeyword(keyword) {
       let key = keyword;
@@ -225,7 +250,6 @@ function addMessage(response, sender, withButtons = false) {
       }
     }
 
-    // Show intro + buttons right away
     window.onload = () => {
       addMessage(responses.intro, "bot", true);
     };
