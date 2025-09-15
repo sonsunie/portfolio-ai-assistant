@@ -4,213 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=Inter&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Jost', sans-serif;
-      font-size: 18px;
-      background-color: white;
-      color: black;
       margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #000;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       height: 100vh;
     }
-
-    .chat-container {
-      width: 90%;
+    .chatbot-container {
+      width: 70%;
       max-width: 800px;
-      height: 90vh;
-      background: #fff;
-      border: 1px solid #ccc;
+      height: 85%;
+      border: 1px solid #ddd;
       border-radius: 12px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: #fff;
     }
-
-    .chat-header {
-      background: white;
-      color: black;
+    .chatbot-header {
+      background: #fff;
+      color: #000;
       padding: 16px;
-      font-size: 22px;
+      font-size: 20px;
+      font-weight: 600;
       text-align: center;
       font-family: 'Outfit', sans-serif;
+      border-bottom: 1px solid #ddd;
     }
-
-    .chat-box {
+    .chatbot-messages {
       flex: 1;
       padding: 16px;
       overflow-y: auto;
       font-size: 18px;
     }
-
     .message {
-      margin-bottom: 16px;
-      animation: fadeIn 0.4s ease-in;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
     }
-
-    .message strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 20px;
+    .user-message {
+      text-align: right;
+      font-weight: 600;
+    }
+    .bot-message {
+      text-align: left;
+    }
+    .bot-header {
       font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
-
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; }
     }
-
-    .input-area {
+    .chatbot-input {
       display: flex;
-      padding: 10px;
-      border-top: 1px solid #ccc;
       align-items: center;
+      border-top: 1px solid #ddd;
+      padding: 8px;
     }
-
-    .input-area input {
+    .chatbot-input input {
       flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 24px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
       outline: none;
+      font-size: 14px;
     }
-
-    .input-area button {
-      background: black;
-      border: none;
-      color: white;
+    .send-btn {
+      margin-left: 8px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      margin-left: 10px;
+      background: #000;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-size: 16px;
     }
-
-    .input-area button:hover {
-      background: #333;
+    .send-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
     }
-
-    .suggestions {
+    .keyword-buttons {
       margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-
-    .suggestions span {
-      display: inline-block;
-      background: #f0f0f0;
+    .keyword-button {
       padding: 6px 12px;
-      margin: 5px;
-      border-radius: 16px;
+      border: 1px solid #000;
+      border-radius: 20px;
+      background: #fff;
+      color: #000;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
+      transition: background 0.2s, color 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-
-    .suggestions span:hover {
-      background: #ddd;
+    .keyword-button:hover {
+      background: #000;
+      color: #fff;
     }
-
-    /* Company and university highlights */
-    .cibc { color: #d32f2f; font-weight: bold; } /* red */
-    .interac { color: #d4a017; font-weight: bold; } /* mustard yellow */
-    .university { font-weight: bold; }
+    .cibc { color: red; font-weight: bold; }
+    .interac { color: #d4a017; font-weight: bold; }
+    .uni { font-weight: bold; }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header">Vanessa's Portfolio Assistant: Ask me a question!</div>
-    <div class="chat-box" id="chatBox">
-      <div class="message">
-        <strong>Introduction</strong>
-        Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. 
-        I’ve worked at companies like <span class="cibc">CIBC</span> and <span class="interac">Interac</span>, and I hold a Masters of Digital Experience Innovation from <span class="university">the University of Waterloo</span> and a Bachelors of Design in Digital Futures from <span class="university">OCAD University</span>. 
-        I’m always open for a chat so feel free to connect with me on <a href="https://www.linkedin.com/in/vanessanamseang/" target="_blank">LinkedIn</a>!
+  <div class="chatbot-container">
+    <div class="chatbot-header">Vanessa's Portfolio Assistant: Ask me a question!</div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-input">
+      <input type="text" id="userInput" placeholder="Type your question here..." />
+      <div class="send-btn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+        </svg>
       </div>
-      <div class="suggestions">
-        <span onclick="showResponse('background')">Background</span>
-        <span onclick="showResponse('experience')">Experience</span>
-        <span onclick="showResponse('skills')">Skills</span>
-        <span onclick="showResponse('roles')">Target Roles</span>
-        <span onclick="showResponse('companies')">Target Companies</span>
-        <span onclick="showResponse('projects')">Projects</span>
-      </div>
-    </div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type your question...">
-      <button onclick="sendMessage()">✈</button>
     </div>
   </div>
 
   <script>
+    const messagesEl = document.getElementById("chatbotMessages");
+    const inputEl = document.getElementById("userInput");
+
     const responses = {
-      "background": "<strong>Background</strong> I’m Vanessa Namseang, a Toronto-based Product Designer. I studied at <span class='university'>OCAD University</span>, earning a Bachelors of Design in Digital Futures with a minor in Games and Play. I’m currently pursuing my Masters of Digital Experience Innovation at the <span class='university'>University of Waterloo</span>. My academic journey combines design, technology, and play, which I bring into my professional work.",
-      
-      "experience": "<strong>Experience</strong> I have over 2 years of professional experience through two major co-ops: 8 months at <span class='cibc'>CIBC</span> as a Service Designer Intern, and 8 months at <span class='interac'>Interac</span> with the Innovation Team. At <span class='cibc'>CIBC</span>, I supported initiatives to improve customer experiences and service design practices, including integrating SMS deeplinks in banking centres. I also co-led the Service Design Community of Practice and created toolkits for scaling human-centered design. At <span class='interac'>Interac</span>, I drove innovation through design thinking workshops, hackathons, and experimental platforms with the Innovation Studio Team.",
-      
-      "skills": "<strong>Skills</strong> My skills span product and service design, with strengths in UX/UI, user research, prototyping, usability testing, workshop facilitation, and service design frameworks. I’m also skilled in visual design, design systems, and interaction design. Beyond tools like Figma and Adobe Suite, I bring a mindset of empathy and creativity influenced by my background in games and play.",
-      
-      "roles": "<strong>Target Roles</strong> I’m interested in roles like Product Designer, Service Designer, and Innovation Manager. These roles allow me to merge my skills in UX design, service design, and creative problem-solving to deliver meaningful, human-centered solutions.",
-      
-      "companies": "<strong>Target Companies</strong> I’m excited about opportunities at Canadian banks, fintech companies like Wealthsimple and Stripe, and global tech leaders like Google, Microsoft, and Spotify. These companies align with my passion for transforming how people interact with technology in their daily lives.",
-      
-      "projects": "<strong>Projects</strong> At <span class='cibc'>CIBC</span>, I focused on integrating SMS deeplinks in banking centres to guide clients to digital self-serve tools, reducing in-branch volume. At <span class='interac'>Interac</span>, I facilitated workshops, hackathon challenges, and developed experimental platforms for innovation. Outside of work, I’ve explored projects that merge design and play, such as interactive games and design systems informed by playful methodologies.",
-      
-      "linkedin": "<strong>LinkedIn</strong> You can connect with me on LinkedIn here: <a href='https://www.linkedin.com/in/vanessanamseang/' target='_blank'>Vanessa Namseang</a>."
+      intro: {
+        header: "Introduction",
+        text: "Welcome to my portfolio! My name is Vanessa Namseang and I’m a Toronto-based Product Designer. I’ve worked at companies like <span class='cibc'>CIBC</span> and <span class='interac'>Interac</span>, and I hold a Masters of Digital Experience Innovation from <span class='uni'>the University of Waterloo</span> and a Bachelors of Design in Digital Futures from <span class='uni'>OCAD University</span>. I’m always open for a chat so feel free to connect with me on LinkedIn!"
+      },
+      background: {
+        header: "Background",
+        text: "I hold my Bachelors of Design in Digital Futures at OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. I'm passionate about bringing in the concept of play from my game design studies to influence how I approach work and collaboration."
+      },
+      experience: {
+        header: "Experience",
+        text: "I’ve had two major work experiences: my 8-month co-op at <span class='cibc'>CIBC</span> and my 8-month co-op at <span class='interac'>Interac</span>. At CIBC, I worked as a Service Designer Intern, leading initiatives to improve customer experiences and service design practices. My main project focused on integrating SMS deeplinks in banking centres to guide clients toward digital self-serve tools like mobile cheque deposit. At Interac, I helped drive engagement through the Innovation workshops, hackathon-style challenges, and experimental platforms that encouraged collaboration and innovation across the company."
+      },
+      skills: {
+        header: "Skills",
+        text: "My skills span product and service design, with strengths in UX/UI, user research, prototyping, usability testing, workshop facilitation, and service design frameworks. I’m also skilled in visual design, design systems, and interaction design. Beyond tools like Figma and Adobe Suite, I bring a mindset of empathy and creativity influenced by my background in games and play."
+      },
+      target: {
+        header: "Target Roles & Companies",
+        text: "I’m aiming for roles in product design, service design, and innovation management, particularly within fintech and big tech. I’m especially excited about opportunities at Canadian banks, as well as global companies like Google, Spotify, and Stripe."
+      },
+      projects: {
+        header: "Projects",
+        text: "I’ve worked on a variety of projects that combine design thinking, innovation, and creativity. At CIBC, I focused on integrating SMS deeplinks in banking centres to guide clients to digital self-serve tools, reducing in-branch volume. At Interac, I facilitated workshops, hackathon challenges, and developed experimental platforms for innovation. Outside of work, I’ve explored projects that merge design and play, such as interactive games and design systems informed by playful methodologies."
+      }
     };
 
-    function showResponse(key) {
-      const chatBox = document.getElementById("chatBox");
-      const response = document.createElement("div");
-      response.className = "message";
-      response.innerHTML = responses[key];
-      chatBox.appendChild(response);
-      chatBox.scrollTop = chatBox.scrollHeight;
+    function addMessage(response, sender, withButtons = false) {
+      const div = document.createElement("div");
+      div.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+
+      if (sender === "bot" && response.header) {
+        div.innerHTML = `<div class="bot-header">${response.header}</div>${response.text}`;
+      } else {
+        div.innerHTML = response;
+      }
+
+      if (withButtons) {
+        const buttonsDiv = document.createElement("div");
+        buttonsDiv.classList.add("keyword-buttons");
+        ["Background", "Experience", "Skills", "Target Roles/Companies", "Projects"].forEach(keyword => {
+          const btn = document.createElement("div");
+          btn.classList.add("keyword-button");
+          btn.textContent = keyword;
+          btn.onclick = () => handleKeyword(keyword.toLowerCase());
+          buttonsDiv.appendChild(btn);
+        });
+        div.appendChild(buttonsDiv);
+      }
+
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function handleKeyword(keyword) {
+      let key = keyword;
+      if (keyword.includes("target")) key = "target";
+      const response = responses[key] || { header: "", text: "Hmm, I’m not sure about that one 🤔. Try asking about my Background, Experience, Skills, Target Roles/Companies, or Projects!" };
+      addMessage(response, "bot");
     }
 
     function sendMessage() {
-      const input = document.getElementById("userInput");
-      const text = input.value.trim().toLowerCase();
-      if (!text) return;
+      const input = inputEl.value.trim().toLowerCase();
+      if (!input) return;
 
-      let matchedKey = null;
-      for (let key in responses) {
-        if (text.includes(key)) {
-          matchedKey = key;
-          break;
-        }
-      }
+      addMessage(inputEl.value, "user");
+      inputEl.value = "";
 
-      const chatBox = document.getElementById("chatBox");
-      const userMessage = document.createElement("div");
-      userMessage.className = "message";
-      userMessage.innerHTML = `<strong>You</strong> ${input.value}`;
-      chatBox.appendChild(userMessage);
-
-      if (matchedKey) {
-        const botMessage = document.createElement("div");
-        botMessage.className = "message";
-        botMessage.innerHTML = responses[matchedKey];
-        chatBox.appendChild(botMessage);
+      if (input.includes("intro") || input.includes("hello") || input.includes("hi") || input.includes("welcome")) {
+        addMessage(responses.intro, "bot", true);
+      } else if (input.includes("background") || input.includes("school") || input.includes("education")) {
+        addMessage(responses.background, "bot");
+      } else if (input.includes("experience") || input.includes("work") || input.includes("cibc") || input.includes("interac")) {
+        addMessage(responses.experience, "bot");
+      } else if (input.includes("skills")) {
+        addMessage(responses.skills, "bot");
+      } else if (input.includes("target") || input.includes("companies") || input.includes("roles")) {
+        addMessage(responses.target, "bot");
+      } else if (input.includes("projects") || input.includes("case study")) {
+        addMessage(responses.projects, "bot");
       } else {
-        const fallback = document.createElement("div");
-        fallback.className = "message";
-        fallback.innerHTML = "<strong>Assistant</strong> I’m not sure how to answer that—try one of the suggested topics above!";
-        chatBox.appendChild(fallback);
+        addMessage({ header: "", text: "Hmm, I’m not sure about that one 🤔. Try asking about my Background, Experience, Skills, Target Roles/Companies, or Projects!" }, "bot");
       }
-
-      input.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    // Show intro + buttons right away
+    window.onload = () => {
+      addMessage(responses.intro, "bot", true);
+    };
+
+    inputEl.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
   </script>
 </body>
 </html>
