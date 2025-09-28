@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa's Portfolio Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=Jost&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Jost', sans-serif;
-      background: #fff;
+      font-family: Georgia, serif;
+      background: transparent !important; /* transparent background */
       color: #000;
       display: flex;
       flex-direction: column;
@@ -21,6 +20,7 @@
     .chatbot-container {
       width: 90%;
       max-width: 800px;
+      min-width: 320px; /* prevents shrinking too much */
       height: 100%;
       max-height: 100vh;
       border: 1px solid #ddd;
@@ -29,7 +29,7 @@
       flex-direction: column;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      background: #fff;
+      background: #fff; /* chatbot box stays white */
     }
 
     .chatbot-header {
@@ -37,10 +37,10 @@
       color: #000;
       padding: 16px;
       font-size: 20px;
-      font-weight: 600;
+      font-weight: bold;
       text-align: center;
-      font-family: 'Outfit', sans-serif;
       border-bottom: 1px solid #ddd;
+      font-family: Georgia, serif;
     }
 
     .chatbot-messages {
@@ -48,6 +48,7 @@
       padding: 16px;
       overflow-y: auto;
       font-size: 18px;
+      font-family: Georgia, serif;
     }
 
     .message {
@@ -58,7 +59,7 @@
 
     .user-message {
       text-align: right;
-      font-weight: normal; /* unbold user text */
+      font-weight: normal;
     }
 
     .bot-message {
@@ -66,9 +67,9 @@
     }
 
     .bot-header {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
+      font-weight: bold;
       margin-bottom: 4px;
+      font-family: Georgia, serif;
     }
 
     @keyframes fadeIn {
@@ -89,7 +90,7 @@
       border-radius: 20px;
       outline: none;
       font-size: 14px;
-      font-family: 'Jost', sans-serif;
+      font-family: Georgia, serif;
     }
 
     .send-btn {
@@ -126,7 +127,7 @@
       cursor: pointer;
       font-size: 14px;
       transition: background 0.2s, color 0.2s;
-      font-family: 'Jost', sans-serif;
+      font-family: Georgia, serif;
     }
 
     .keyword-button:hover {
@@ -140,6 +141,10 @@
 
     /* Mobile adjustments */
     @media (max-width: 600px) {
+      .chatbot-container {
+        min-width: 95%; /* keep wide on small screens */
+        height: 80vh;
+      }
       .chatbot-header { font-size: 16px; padding: 12px; }
       .chatbot-messages { font-size: 16px; padding: 12px; }
       .chatbot-input input { font-size: 13px; padding: 8px; }
@@ -172,7 +177,7 @@
       },
       background: {
         header: "Background",
-        text: "I hold a Bachelors of Design in Digital Futures from OCAD University with a minor in Games and Play. Right now, I’m completing my Masters in Digital Experience Innovation at the University of Waterloo. My design education combines creative technology, design thinking, and innovation, which I apply in both academic and professional settings."
+        text: "I hold a Bachelors of Design in Digital Futures from <span class='uni'>OCAD University</span>. Right now, I’m completing my Masters in Digital Experience Innovation at <span class='uni'>the University of Waterloo</span>. My design education combines creative technology, design thinking, and innovation, which I apply in both academic and professional settings."
       },
       experience: {
         header: "Experience",
